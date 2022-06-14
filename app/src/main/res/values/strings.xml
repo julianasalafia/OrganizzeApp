@@ -11,4 +11,11 @@
 
     <string name="title_intro_4">Everything organized on \nyour phone or computer</string>
     <string name="description_intro_4">Use it on your smartphone or by \naccessing our website</string>
+
+    <string name="title_intro_5">Create your account for free</string>
+    <string name="description_intro_5">Join over 500 million people  and start now</string>
+
+    <string name="sign_up_button">Sign up</string>
+    <string name="log_in_button">Login</string>
+    <string name="already_registered_button">I already have an account</string>
 </resources>

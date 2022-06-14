@@ -1,7 +1,11 @@
 package com.cursoandroid.organizze;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.cursoandroid.organizze.activity.LoginActivity;
+import com.cursoandroid.organizze.activity.SignUpActivity;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
@@ -32,7 +36,20 @@ public class MainActivity extends IntroActivity {
         addSlide(new FragmentSlide.Builder()
                 .background(android.R.color.white)
                 .fragment(R.layout.intro_4)
+                .build());
+
+        addSlide(new FragmentSlide.Builder()
+                .background(android.R.color.white)
+                .fragment(R.layout.intro_register)
                 .canGoForward(false)
                 .build());
+    }
+
+    public void signUp(View view) {
+        startActivity(new Intent(this, SignUpActivity.class));
+    }
+
+    public void logIn(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
