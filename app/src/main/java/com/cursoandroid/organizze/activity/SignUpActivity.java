@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText fieldName, fieldEmail, fieldPassword;
@@ -78,8 +81,23 @@ public class SignUpActivity extends AppCompatActivity {
                             "Great! We can now get started :)",
                             Toast.LENGTH_SHORT).show();
                 } else {
+                    String exception = "";
+
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        exception = "You need a strong password!";
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        exception = "You need a valid email!";
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        exception = "This account was already registered";
+                    } catch (Exception e) {
+                        exception = "Ops, something went wrong! " + e.getMessage();
+                        e.printStackTrace();
+                    }
+
                     Toast.makeText(SignUpActivity.this,
-                            "Oops, something went wrong :(",
+                            exception,
                             Toast.LENGTH_SHORT).show();
                 }
             }
