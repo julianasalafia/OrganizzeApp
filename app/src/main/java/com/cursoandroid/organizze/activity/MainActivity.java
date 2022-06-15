@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.cursoandroid.organizze.R;
-import com.cursoandroid.organizze.activity.LoginActivity;
-import com.cursoandroid.organizze.activity.SignUpActivity;
+import com.cursoandroid.organizze.config.ConfigurationFirebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
 public class MainActivity extends IntroActivity {
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,15 @@ public class MainActivity extends IntroActivity {
 
         addSlide(new FragmentSlide.Builder()
                 .background(android.R.color.white)
-                .fragment(R.layout.intro_register)
+                .fragment(R.layout.intro_signup)
                 .canGoForward(false)
                 .build());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verifyUserLogin();
     }
 
     public void signUp(View view) {
@@ -52,5 +59,17 @@ public class MainActivity extends IntroActivity {
 
     public void logIn(View view) {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    public void verifyUserLogin() {
+        auth = ConfigurationFirebase.getFirebaseAuth();
+
+        if (auth.getCurrentUser() != null) {
+            openMainScreen();
+        }
+    }
+
+    public void openMainScreen() {
+        startActivity(new Intent(this, PrincipalActivity.class));
     }
 }

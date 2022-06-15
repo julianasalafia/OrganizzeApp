@@ -23,9 +23,11 @@
     <string name="title_create_account">Create your account for free</string>
     <string name="title_login_account">Log into your account</string>
 
-        <string name="terms_of_use">Terms of use</string>
+    <string name="terms_of_use">Terms of use</string>
     <string name="fill_password">Password</string>
     <string name="fill_email">Email</string>
     <string name="fill_name">Name</string>
+
+    <string name="title_activity_principal">Principal Activity</string>
 
 </resources>
