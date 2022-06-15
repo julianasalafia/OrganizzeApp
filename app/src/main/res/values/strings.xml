@@ -4,10 +4,10 @@
     <string name="description_intro_1">Simple and easy-to-use</string>
 
     <string name="title_intro_2">Know where your money is going</string>
-    <string name="description_intro_2">Categorizing your releases and \nseeing where every penny goes</string>
+    <string name="description_intro_2">Categorizing your expenses and \nseeing where every penny goes</string>
 
     <string name="title_intro_3">Never forget to pay a bill again!</string>
-    <string name="description_intro_3">Get alerts whenever you want them</string>
+    <string name="description_intro_3">Receive alerts whenever you want</string>
 
     <string name="title_intro_4">Everything organized on \nyour phone or computer</string>
     <string name="description_intro_4">Use it on your smartphone or by \naccessing our website</string>
@@ -27,6 +27,5 @@
     <string name="fill_password">Password</string>
     <string name="fill_email">Email</string>
     <string name="fill_name">Name</string>
-
 
 </resources>

@@ -1,16 +1,88 @@
 package com.cursoandroid.organizze.activity;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-
 import com.cursoandroid.organizze.R;
+import com.cursoandroid.organizze.config.ConfigurationFirebase;
+import com.cursoandroid.organizze.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
+    private EditText fieldName, fieldEmail, fieldPassword;
+    private Button buttonSignUp;
+    private FirebaseAuth auth;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        fieldName = findViewById(R.id.editName);
+        fieldEmail = findViewById(R.id.editEmail);
+        fieldPassword = findViewById(R.id.editPassword);
+        buttonSignUp = findViewById(R.id.buttonSignup);
+
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String textName = fieldName.getText().toString();
+                String textEmail = fieldEmail.getText().toString();
+                String textPassword = fieldPassword.getText().toString();
+
+                if (!textName.isEmpty()) {
+                    if (!textEmail.isEmpty()) {
+                        if (!textPassword.isEmpty()) {
+                            user = new User();
+                            user.setName(textName);
+                            user.setEmail(textEmail);
+                            user.setPassword(textPassword);
+                            signUpUser();
+                        } else {
+                            Toast.makeText(SignUpActivity.this,
+                                    "Choose your password carefully",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(SignUpActivity.this,
+                                "Give us your email",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(SignUpActivity.this,
+                            "What's your name?",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void signUpUser() {
+        auth = ConfigurationFirebase.getFirebaseAuth();
+        auth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(SignUpActivity.this,
+                            "Great! We can now get started :)",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignUpActivity.this,
+                            "Oops, something went wrong :(",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

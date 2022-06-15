@@ -1,9 +1,10 @@
-package com.cursoandroid.organizze;
+package com.cursoandroid.organizze.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cursoandroid.organizze.R;
 import com.cursoandroid.organizze.activity.LoginActivity;
 import com.cursoandroid.organizze.activity.SignUpActivity;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
