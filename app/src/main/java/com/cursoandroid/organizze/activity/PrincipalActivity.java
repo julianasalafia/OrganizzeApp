@@ -29,10 +29,10 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     public void addIncome(View view) {
-        startActivity(new Intent(this, ExpensesActivity.class));
+        startActivity(new Intent(this, IncomesActivity.class));
     }
 
     public void addExpense(View view) {
-        startActivity(new Intent(this, IncomesActivity.class));
+        startActivity(new Intent(this, ExpensesActivity.class));
     }
 }
