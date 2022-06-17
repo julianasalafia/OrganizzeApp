@@ -1,5 +1,6 @@
 package com.cursoandroid.organizze.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -28,10 +29,10 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     public void addIncome(View view) {
-
+        startActivity(new Intent(this, ExpensesActivity.class));
     }
 
     public void addExpense(View view) {
-
+        startActivity(new Intent(this, IncomesActivity.class));
     }
 }
