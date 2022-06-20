@@ -38,9 +38,11 @@
             android:layout_height="wrap_content"
             android:onClick="addExpense"
             android:src="@drawable/ic_add_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimaryExpenses"
+            fab:fab_colorPressed="@color/colorPrimaryDarkExpenses"
             fab:fab_label="Expense"
             fab:fab_size="mini"
-            fab:fab_colorNormal="@color/colorPrimaryExpenses" />
+            fab:menu_icon="@drawable/ic_add_white_24dp" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_income"
@@ -48,9 +50,10 @@
             android:layout_height="wrap_content"
             android:onClick="addIncome"
             android:src="@drawable/ic_add_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimaryIncome"
+            fab:fab_colorPressed="@color/colorPrimaryDarkIncome"
             fab:fab_label="Income"
-            fab:fab_size="mini"
-            fab:fab_colorNormal="@color/colorPrimaryIncome" />
+            fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
 
