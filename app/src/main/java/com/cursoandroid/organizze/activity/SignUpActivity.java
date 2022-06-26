@@ -1,6 +1,7 @@
 package com.cursoandroid.organizze.activity;
 
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cursoandroid.organizze.R;
 import com.cursoandroid.organizze.config.ConfigurationFirebase;
+import com.cursoandroid.organizze.helper.Base64Custom;
 import com.cursoandroid.organizze.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -76,7 +78,11 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    String idUser = Base64Custom.encode64Base(user.getEmail());
+                    user.setIdUser(idUser);
+                    user.save();
                     finish();
+
                 } else {
                     String exception = "";
 
