@@ -9,6 +9,8 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private Double totalIncome = 0.00;
+    private Double totalExpense = 0.00;
 
     public User() {
 
@@ -17,6 +19,22 @@ public class User {
     public void save() {
         DatabaseReference firebase = ConfigurationFirebase.getFirebaseDatabase();
         firebase.child("users").child(this.idUser).setValue(this);
+    }
+
+    public Double getTotalIncome() {
+        return totalIncome;
+    }
+
+    public void setTotalIncome(Double totalIncome) {
+        this.totalIncome = totalIncome;
+    }
+
+    public Double getTotalExpense() {
+        return totalExpense;
+    }
+
+    public void setTotalExpense(Double totalExpense) {
+        this.totalExpense = totalExpense;
     }
 
     @Exclude

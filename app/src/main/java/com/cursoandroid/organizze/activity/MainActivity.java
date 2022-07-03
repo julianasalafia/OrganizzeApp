@@ -63,7 +63,7 @@ public class MainActivity extends IntroActivity {
 
     public void verifyUserLogin() {
         auth = ConfigurationFirebase.getFirebaseAuth();
-        auth.signOut();
+        //auth.signOut();
         if (auth.getCurrentUser() != null) {
             openMainScreen();
         }
