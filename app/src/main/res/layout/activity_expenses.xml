@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.IncomesActivity">
+    tools:context=".activity.ExpensesActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editValue"
+            android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -104,8 +104,10 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_check_white_24dp" />
+        app:srcCompat="@drawable/ic_check_white_24dp"
+        android:onClick="saveExpense"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
