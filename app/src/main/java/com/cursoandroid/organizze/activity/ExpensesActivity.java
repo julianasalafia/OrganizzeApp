@@ -33,7 +33,7 @@ public class ExpensesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
 
-        fieldDate = findViewById(R.id.editData);
+        fieldDate = findViewById(R.id.editDate);
         fieldCategory = findViewById(R.id.editCategory);
         fieldDescription = findViewById(R.id.editDescription);
         fieldAmount = findViewById(R.id.editAmount);

@@ -48,6 +48,7 @@
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/data_hint" />
@@ -67,6 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/transaction_name_hint" />
@@ -86,6 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/description_hint" />
@@ -101,6 +104,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:onClick="saveIncome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
