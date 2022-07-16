@@ -11,10 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cursoandroid.organizze.R;
+import com.cursoandroid.organizze.adapter.AdapterTransaction;
 import com.cursoandroid.organizze.config.ConfigurationFirebase;
 import com.cursoandroid.organizze.helper.Base64Custom;
+import com.cursoandroid.organizze.model.Transaction;
 import com.cursoandroid.organizze.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +30,8 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrincipalActivity extends AppCompatActivity {
     private MaterialCalendarView calendarView;
@@ -39,6 +45,9 @@ public class PrincipalActivity extends AppCompatActivity {
     private DatabaseReference userRef;
     private ValueEventListener valueEventListenerUser;
 
+    private RecyclerView recyclerView;
+    private AdapterTransaction adapterTransaction;
+    private List<Transaction> transactions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,15 @@ public class PrincipalActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
         textGreeting = findViewById(R.id.textGreeting);
         textBalance = findViewById(R.id.textBalance);
+        recyclerView = findViewById(R.id.recyclerTransactions);
         configureCalendarView();
+
+        adapterTransaction = new AdapterTransaction(transactions, this);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapterTransaction);
     }
 
     @Override
