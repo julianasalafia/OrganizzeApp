@@ -59,6 +59,7 @@ public class IncomesActivity extends AppCompatActivity {
             updateIncomes(updatedIncome);
 
             transaction.save(date);
+            finish();
         }
     }
 

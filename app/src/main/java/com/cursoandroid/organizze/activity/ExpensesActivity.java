@@ -58,6 +58,7 @@ public class ExpensesActivity extends AppCompatActivity {
             updateExpenses(updatedExpense);
 
             transaction.save(date);
+            finish();
         }
     }
 
