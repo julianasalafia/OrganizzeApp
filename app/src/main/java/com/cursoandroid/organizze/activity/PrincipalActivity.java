@@ -2,6 +2,7 @@ package com.cursoandroid.organizze.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private FirebaseAuth auth = ConfigurationFirebase.getFirebaseAuth();
     private DatabaseReference firebaseRef = ConfigurationFirebase.getFirebaseDatabase();
+    private DatabaseReference userRef;
+    private ValueEventListener valueEventListenerUser;
 
 
     @Override
@@ -49,15 +52,20 @@ public class PrincipalActivity extends AppCompatActivity {
         textGreeting = findViewById(R.id.textGreeting);
         textBalance = findViewById(R.id.textBalance);
         configureCalendarView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         recoverResume();
     }
 
     public void recoverResume() {
         String emailUser = auth.getCurrentUser().getEmail();
         String idUser = Base64Custom.encode64Base(emailUser);
-        final DatabaseReference userRef = firebaseRef.child("users").child(idUser);
+        userRef = firebaseRef.child("users").child(idUser);
 
-        userRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerUser = userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -116,5 +124,11 @@ public class PrincipalActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        userRef.removeEventListener(valueEventListenerUser);
     }
 }
