@@ -36,9 +36,10 @@ public class AdapterTransaction extends RecyclerView.Adapter<AdapterTransaction.
         holder.title.setText(transaction.getDescription());
         holder.amount.setText(String.valueOf(transaction.getAmount()));
         holder.category.setText(transaction.getCategory());
+        holder.amount.setTextColor(context.getResources().getColor(R.color.colorAccentIncome));
 
         if (transaction.getType() == "e" || transaction.getType().equals("e")) {
-            holder.amount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            holder.amount.setTextColor(context.getResources().getColor(R.color.colorAccentExpenses));
             holder.amount.setText("-" + transaction.getAmount());
         }
     }

@@ -44,10 +44,13 @@ public class PrincipalActivity extends AppCompatActivity {
     private DatabaseReference firebaseRef = ConfigurationFirebase.getFirebaseDatabase();
     private DatabaseReference userRef;
     private ValueEventListener valueEventListenerUser;
+    private ValueEventListener valueEventListenerTransactions;
 
     private RecyclerView recyclerView;
     private AdapterTransaction adapterTransaction;
     private List<Transaction> transactions = new ArrayList<>();
+    private DatabaseReference transactionRef;
+    private String monthYearSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +74,30 @@ public class PrincipalActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapterTransaction);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        recoverResume();
+    public void recoverTransactions() {
+        String emailUser = auth.getCurrentUser().getEmail();
+        String idUser = Base64Custom.encode64Base(emailUser);
+
+        transactionRef = firebaseRef.child("transactions")
+        .child(idUser)
+        .child(monthYearSelected);
+
+        valueEventListenerTransactions = transactionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                transactions.clear();
+                for (DataSnapshot data: dataSnapshot.getChildren()) {
+                  Transaction transaction = data.getValue(Transaction.class);
+                  transactions.add(transaction);
+                }
+                adapterTransaction.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void recoverResume() {
@@ -135,17 +158,34 @@ public class PrincipalActivity extends AppCompatActivity {
         CharSequence months[] =
                 {"January", "February", "March", "April", "May", "June ", "July ", "August", "September", "October", "November", "December"};
         calendarView.setTitleMonths(months);
+
+        CalendarDay currentDate =  calendarView.getCurrentDate();
+        String monthSelected = String.format("%02d", (currentDate.getMonth() + 1));
+        monthYearSelected = String.valueOf( monthSelected + "" + currentDate.getYear());
+
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                String monthSelected = String.format("%02d", (date.getMonth() + 1));
+                monthYearSelected = String.valueOf(monthSelected + "" + date.getYear());
 
+                transactionRef.removeEventListener(valueEventListenerTransactions);
+                recoverTransactions();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recoverResume();
+        recoverTransactions();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         userRef.removeEventListener(valueEventListenerUser);
+        transactionRef.removeEventListener(valueEventListenerTransactions);
     }
 }
