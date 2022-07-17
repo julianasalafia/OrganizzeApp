@@ -123,6 +123,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
                 transactionRef.child(transaction.getKey()).removeValue();
                 adapterTransaction.notifyItemRemoved(position);
+                updateBalance();
             }
         });
 
@@ -138,6 +139,22 @@ public class PrincipalActivity extends AppCompatActivity {
 
         AlertDialog alert = alertDialog.create();
         alert.show();
+    }
+
+    public void updateBalance() {
+        String emailUser = auth.getCurrentUser().getEmail();
+        String idUser = Base64Custom.encode64Base(emailUser);
+        userRef = firebaseRef.child("users").child(idUser);
+
+        if (transaction.getType().equals("i")) {
+            totalIncome = totalIncome - transaction.getAmount();
+            userRef.child("totalIncome").setValue(totalIncome);
+        }
+
+        if (transaction.getType().equals("e")) {
+            totalExpense = totalExpense - transaction.getAmount();
+            userRef.child("totalExpense").setValue(totalExpense);
+        }
     }
 
     public void recoverTransactions() {
