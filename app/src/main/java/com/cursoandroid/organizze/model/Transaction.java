@@ -12,6 +12,7 @@ public class Transaction {
     private String description;
     private String type;
     private double amount;
+    private String key;
 
     public Transaction() {
 
@@ -28,6 +29,14 @@ public class Transaction {
                 .child(monthYear)
                 .push()
                 .setValue(this);
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getDate() {

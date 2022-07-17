@@ -1,14 +1,16 @@
 package com.cursoandroid.organizze.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -50,6 +52,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterTransaction adapterTransaction;
     private List<Transaction> transactions = new ArrayList<>();
+    private Transaction transaction;
     private DatabaseReference transactionRef;
     private String monthYearSelected;
 
@@ -92,10 +95,49 @@ public class PrincipalActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+                deleteTransaction(viewHolder);
             }
         };
         new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerView);
+    }
+
+    public void deleteTransaction(final RecyclerView.ViewHolder viewHolder) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setTitle("Delete transaction");
+        alertDialog.setMessage("Are you sure you want to delete this transaction?");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int position = viewHolder.getAdapterPosition();
+                transaction = transactions.get(position);
+
+                String emailUser = auth.getCurrentUser().getEmail();
+                String idUser = Base64Custom.encode64Base(emailUser);
+
+                transactionRef = firebaseRef.child("transactions")
+                        .child(idUser)
+                        .child(monthYearSelected);
+
+                transactionRef.child(transaction.getKey()).removeValue();
+                adapterTransaction.notifyItemRemoved(position);
+            }
+        });
+
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(PrincipalActivity.this,
+                        "Cancel",
+                        Toast.LENGTH_SHORT).show();
+                adapterTransaction.notifyDataSetChanged();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 
     public void recoverTransactions() {
@@ -103,16 +145,17 @@ public class PrincipalActivity extends AppCompatActivity {
         String idUser = Base64Custom.encode64Base(emailUser);
 
         transactionRef = firebaseRef.child("transactions")
-        .child(idUser)
-        .child(monthYearSelected);
+                .child(idUser)
+                .child(monthYearSelected);
 
         valueEventListenerTransactions = transactionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 transactions.clear();
-                for (DataSnapshot data: dataSnapshot.getChildren()) {
-                  Transaction transaction = data.getValue(Transaction.class);
-                  transactions.add(transaction);
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Transaction transaction = data.getValue(Transaction.class);
+                    transaction.setKey(data.getKey());
+                    transactions.add(transaction);
                 }
                 adapterTransaction.notifyDataSetChanged();
             }
@@ -183,9 +226,9 @@ public class PrincipalActivity extends AppCompatActivity {
                 {"January", "February", "March", "April", "May", "June ", "July ", "August", "September", "October", "November", "December"};
         calendarView.setTitleMonths(months);
 
-        CalendarDay currentDate =  calendarView.getCurrentDate();
+        CalendarDay currentDate = calendarView.getCurrentDate();
         String monthSelected = String.format("%02d", (currentDate.getMonth() + 1));
-        monthYearSelected = String.valueOf( monthSelected + "" + currentDate.getYear());
+        monthYearSelected = String.valueOf(monthSelected + "" + currentDate.getYear());
 
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
